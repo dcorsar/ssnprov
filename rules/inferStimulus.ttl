@@ -1,0 +1,25 @@
+PREFIX rule: <tag:stardog:api:rule:>
+
+[] a rule:SPARQLRule ;
+   rule:content """
+       PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+       PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+       PREFIX prov: <http://www.w3.org/ns/prov#>
+       PREFIX ssn: <http://purl.oclc.org/NET/ssnx/ssn#>
+       PREFIX dul: <http://www.loa-cnr.it/ontologies/DUL.owl#>
+       PREFIX prov_ssn: <http://www.SSNProv.test#>
+     IF {
+        ?obs rdf:type ssn:Observation .
+        ?obs dul:includesEvent ?stim .
+        ?stim rdf:type ssn:Stimulus .
+
+        ?obsI prov:generated ?obs .
+        ?obsI rdf:type prov_ssn:Observationnterpretation .
+        ?obsI prov:wasInformedBy ?actOfSen .
+        ?actOfSen rdf:type prov_ssn:ActivityOfSensing.
+     }
+     THEN {
+        ?actOfSen prov:wasInfluencedBy ?stim .
+        ?obs prov:wasInfluencedBy ?stim .
+     }
+   """.

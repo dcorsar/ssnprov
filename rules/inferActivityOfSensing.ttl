@@ -1,0 +1,40 @@
+PREFIX rule: <tag:stardog:api:rule:>
+
+[] a rule:SPARQLRule ;
+   rule:content """
+       PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+       PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+       PREFIX prov: <http://www.w3.org/ns/prov#>
+       PREFIX ssn: <http://purl.oclc.org/NET/ssnx/ssn#>
+       PREFIX prov_ssn: <http://www.SSNProv.test#>
+     IF {
+        ?obs rdf:type ssn:Observation .
+        ?obsI prov:generated ?obs .
+        ?obsI rdf:type prov_ssn:Observationnterpretation .
+        FILTER NOT EXISTS (?obsI prov:wasInformedBy ?actOfSen .
+			   ?actOfSen rdf:type prov_ssn:ActivityOfSensing) .
+        BIND (UUID() AS ?activityOfSensing).
+     }
+     THEN {
+        ?obsI prov:wasInformedBy ?activityOfSensing .
+     }
+   """.
+
+[] a rule:SPARQLRule ;
+   rule:content """
+       PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+       PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+       PREFIX prov: <http://www.w3.org/ns/prov#>
+       PREFIX ssn: <http://purl.oclc.org/NET/ssnx/ssn#>
+       PREFIX prov_ssn: <http://www.SSNProv.test#>
+     IF {
+        ?obs rdf:type ssn:Observation .
+        ?obsI prov:generated ?obs .
+        ?obsI rdf:type prov_ssn:Observationnterpretation .
+        ?obsI prov:wasInformedBy ?actOfSen .
+	FILTER NOT EXISTS (?actOfSen rdf:type prov_ssn:ActivityOfSensing) .
+     }
+     THEN {
+        ?actOfSen rdf:type prov_ssn:ActivityOfSensing .
+     }
+   """.
