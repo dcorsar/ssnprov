@@ -1,6 +1,7 @@
+# Saved by TopBraid on Mon May 26 14:13:08 IST 2014
 # baseURI: http://www.provssn.test/provssninf
-# imports: http://spinrdf.org/spin
 # imports: http://www.SSNProv.test
+# imports: http://spinrdf.org/spin
 
 @prefix SSNProv:  <http://www.SSNProv.test#> .
 @prefix owl:     <http://www.w3.org/2002/07/owl#> .
@@ -14,28 +15,6 @@
 @prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
 
 <http://purl.oclc.org/NET/ssnx/ssn#Observation>
-      spin:rule
-              [ rdf:type sp:Construct ;
-                sp:templates ([ sp:object
-                                    [ sp:varName "stimulus"^^xsd:string
-                                    ] ;
-                            sp:predicate <http://www.w3.org/ns/prov#wasInfluencedBy> ;
-                            sp:subject spin:_this
-                          ]) ;
-                sp:where ([ sp:object
-                                    [ sp:varName "stimulus"^^xsd:string
-                                    ] ;
-                            sp:predicate <http://www.loa-cnr.it/ontologies/DUL.owl#includesEvent> ;
-                            sp:subject spin:_this
-                          ] [ rdf:type sp:NotExists ;
-                            sp:elements ([ sp:object
-                                                [ sp:varName "stimulus"^^xsd:string
-                                                ] ;
-                                        sp:predicate <http://www.w3.org/ns/prov#wasInfluencedBy> ;
-                                        sp:subject spin:_this
-                                      ])
-                          ])
-              ] ;
       spin:rule
               [ rdf:type sp:Construct ;
                 sp:templates ([ sp:object SSNProv:ObservationInterpretation ;
@@ -73,15 +52,94 @@
                                                 ]
                                       ])
                           ])
-              ] .
-
-SSNProv:ActivityOfSensing
+              ] ;
       spin:rule
               [ rdf:type sp:Construct ;
                 sp:templates ([ sp:object
                                     [ sp:varName "stimulus"^^xsd:string
                                     ] ;
                             sp:predicate <http://www.w3.org/ns/prov#wasInfluencedBy> ;
+                            sp:subject spin:_this
+                          ]) ;
+                sp:where ([ sp:object
+                                    [ sp:varName "stimulus"^^xsd:string
+                                    ] ;
+                            sp:predicate <http://www.loa-cnr.it/ontologies/DUL.owl#includesEvent> ;
+                            sp:subject spin:_this
+                          ] [ rdf:type sp:NotExists ;
+                            sp:elements ([ sp:object
+                                                [ sp:varName "stimulus"^^xsd:string
+                                                ] ;
+                                        sp:predicate <http://www.w3.org/ns/prov#wasInfluencedBy> ;
+                                        sp:subject spin:_this
+                                      ])
+                          ])
+              ] .
+
+SSNProv:ActivityOfSensing
+      spin:rule
+              [ rdf:type sp:Construct ;
+                sp:templates ([ sp:object SSNProv:SensingUsage ;
+                            sp:predicate rdf:type ;
+                            sp:subject _:b1
+                          ] [ sp:object _:b1 ;
+                            sp:predicate <http://www.w3.org/ns/prov#qualifiedAssociation> ;
+                            sp:subject spin:_this
+                          ]) ;
+                sp:where ([ rdf:type sp:NotExists ;
+                            sp:elements ([ sp:object SSNProv:SensingUsage ;
+                                        sp:predicate rdf:type ;
+                                        sp:subject _:b2
+                                      ] [ sp:object _:b2 ;
+                                        sp:predicate <http://www.w3.org/ns/prov#qualifiedAssociation> ;
+                                        sp:subject spin:_this
+                                      ])
+                          ])
+              ] ;
+      spin:rule
+              [ rdf:type sp:Construct ;
+                sp:templates ([ sp:object SSNProv:SensorPerformedSensing ;
+                            sp:predicate rdf:type ;
+                            sp:subject
+                                    [ sp:varName "sps"^^xsd:string
+                                    ]
+                          ] [ sp:object
+                                    [ sp:varName "sps"^^xsd:string
+                                    ] ;
+                            sp:predicate <http://www.w3.org/ns/prov#qualifiedAssociation> ;
+                            sp:subject spin:_this
+                          ]) ;
+                sp:where ([ sp:object SSNProv:ActivityOfSensing ;
+                            sp:predicate rdf:type ;
+                            sp:subject spin:_this
+                          ] [ rdf:type sp:Bind ;
+                            sp:expression
+                                    [ rdf:type smf:buildURI ;
+                                      sp:arg1 "{?this}_sps"
+                                    ] ;
+                            sp:variable
+                                    [ sp:varName "sps"^^xsd:string
+                                    ]
+                          ] [ rdf:type sp:NotExists ;
+                            sp:elements ([ sp:object SSNProv:SensorPerformedSensing ;
+                                        sp:predicate rdf:type ;
+                                        sp:subject
+                                                [ sp:varName "sps2"^^xsd:string
+                                                ]
+                                      ] [ sp:object
+                                                [ sp:varName "sps2"^^xsd:string
+                                                ] ;
+                                        sp:predicate <http://www.w3.org/ns/prov#qualifiedAssociation> ;
+                                        sp:subject spin:_this
+                                      ])
+                          ])
+              ] ;
+      spin:rule
+              [ rdf:type sp:Construct ;
+                sp:templates ([ sp:object
+                                    [ sp:varName "so"^^xsd:string
+                                    ] ;
+                            sp:predicate <http://www.w3.org/ns/prov#generated> ;
                             sp:subject spin:_this
                           ]) ;
                 sp:where ([ sp:object spin:_this ;
@@ -97,17 +155,17 @@ SSNProv:ActivityOfSensing
                                     [ sp:varName "oi"^^xsd:string
                                     ]
                           ] [ sp:object
-                                    [ sp:varName "stimulus"^^xsd:string
+                                    [ sp:varName "so"^^xsd:string
                                     ] ;
-                            sp:predicate <http://www.loa-cnr.it/ontologies/DUL.owl#includesEvent> ;
+                            sp:predicate <http://purl.oclc.org/NET/ssnx/ssn#observationResult> ;
                             sp:subject
                                     [ sp:varName "obs"^^xsd:string
                                     ]
                           ] [ rdf:type sp:NotExists ;
                             sp:elements ([ sp:object
-                                                [ sp:varName "stimulus"^^xsd:string
+                                                [ sp:varName "so"^^xsd:string
                                                 ] ;
-                                        sp:predicate <http://www.w3.org/ns/prov#wasInfluencedBy> ;
+                                        sp:predicate <http://www.w3.org/ns/prov#generated> ;
                                         sp:subject spin:_this
                                       ])
                           ])
@@ -151,9 +209,9 @@ SSNProv:ActivityOfSensing
       spin:rule
               [ rdf:type sp:Construct ;
                 sp:templates ([ sp:object
-                                    [ sp:varName "so"^^xsd:string
+                                    [ sp:varName "stimulus"^^xsd:string
                                     ] ;
-                            sp:predicate <http://www.w3.org/ns/prov#generated> ;
+                            sp:predicate <http://www.w3.org/ns/prov#wasInfluencedBy> ;
                             sp:subject spin:_this
                           ]) ;
                 sp:where ([ sp:object spin:_this ;
@@ -169,130 +227,23 @@ SSNProv:ActivityOfSensing
                                     [ sp:varName "oi"^^xsd:string
                                     ]
                           ] [ sp:object
-                                    [ sp:varName "so"^^xsd:string
+                                    [ sp:varName "stimulus"^^xsd:string
                                     ] ;
-                            sp:predicate <http://purl.oclc.org/NET/ssnx/ssn#observationResult> ;
+                            sp:predicate <http://www.loa-cnr.it/ontologies/DUL.owl#includesEvent> ;
                             sp:subject
                                     [ sp:varName "obs"^^xsd:string
                                     ]
                           ] [ rdf:type sp:NotExists ;
                             sp:elements ([ sp:object
-                                                [ sp:varName "so"^^xsd:string
+                                                [ sp:varName "stimulus"^^xsd:string
                                                 ] ;
-                                        sp:predicate <http://www.w3.org/ns/prov#generated> ;
-                                        sp:subject spin:_this
-                                      ])
-                          ])
-              ] ;
-      spin:rule
-              [ rdf:type sp:Construct ;
-                sp:templates ([ sp:object SSNProv:SensorPerformedSensing ;
-                            sp:predicate rdf:type ;
-                            sp:subject
-                                    [ sp:varName "sps"^^xsd:string
-                                    ]
-                          ] [ sp:object
-                                    [ sp:varName "sps"^^xsd:string
-                                    ] ;
-                            sp:predicate <http://www.w3.org/ns/prov#qualifiedAssociation> ;
-                            sp:subject spin:_this
-                          ]) ;
-                sp:where ([ sp:object SSNProv:ActivityOfSensing ;
-                            sp:predicate rdf:type ;
-                            sp:subject spin:_this
-                          ] [ rdf:type sp:Bind ;
-                            sp:expression
-                                    [ rdf:type smf:buildURI ;
-                                      sp:arg1 "{?this}_sps"
-                                    ] ;
-                            sp:variable
-                                    [ sp:varName "sps"^^xsd:string
-                                    ]
-                          ] [ rdf:type sp:NotExists ;
-                            sp:elements ([ sp:object SSNProv:SensorPerformedSensing ;
-                                        sp:predicate rdf:type ;
-                                        sp:subject
-                                                [ sp:varName "sps2"^^xsd:string
-                                                ]
-                                      ] [ sp:object
-                                                [ sp:varName "sps2"^^xsd:string
-                                                ] ;
-                                        sp:predicate <http://www.w3.org/ns/prov#qualifiedAssociation> ;
+                                        sp:predicate <http://www.w3.org/ns/prov#wasInfluencedBy> ;
                                         sp:subject spin:_this
                                       ])
                           ])
               ] .
 
 SSNProv:ObservationInterpretation
-      spin:rule
-              [ rdf:type sp:Construct ;
-                sp:templates ([ sp:object
-                                    [ sp:varName "sensing"^^xsd:string
-                                    ] ;
-                            sp:predicate <http://www.w3.org/ns/prov#used> ;
-                            sp:subject spin:_this
-                          ]) ;
-                sp:where ([ sp:object
-                                    [ sp:varName "obs"^^xsd:string
-                                    ] ;
-                            sp:predicate <http://www.w3.org/ns/prov#generated> ;
-                            sp:subject spin:_this
-                          ] [ sp:object <http://purl.oclc.org/NET/ssnx/ssn#Observation> ;
-                            sp:predicate rdf:type ;
-                            sp:subject
-                                    [ sp:varName "obs"^^xsd:string
-                                    ]
-                          ] [ sp:object
-                                    [ sp:varName "sensing"^^xsd:string
-                                    ] ;
-                            sp:predicate <http://purl.oclc.org/NET/ssnx/ssn#sensingMethodUsed> ;
-                            sp:subject
-                                    [ sp:varName "obs"^^xsd:string
-                                    ]
-                          ] [ rdf:type sp:NotExists ;
-                            sp:elements ([ sp:object
-                                                [ sp:varName "sensing"^^xsd:string
-                                                ] ;
-                                        sp:predicate <http://www.w3.org/ns/prov#used> ;
-                                        sp:subject spin:_this
-                                      ])
-                          ])
-              ] ;
-      spin:rule
-              [ rdf:type sp:Construct ;
-                sp:templates ([ sp:object SSNProv:SensingUsage ;
-                            sp:predicate rdf:type ;
-                            sp:subject
-                                    [ sp:varName "su"^^xsd:string
-                                    ]
-                          ] [ sp:object
-                                    [ sp:varName "su"^^xsd:string
-                                    ] ;
-                            sp:predicate <http://www.w3.org/ns/prov#qualifiedAssociation> ;
-                            sp:subject spin:_this
-                          ]) ;
-                sp:where ([ rdf:type sp:Bind ;
-                            sp:expression
-                                    [ rdf:type smf:buildURI ;
-                                      sp:arg1 "{?this}_su"
-                                    ] ;
-                            sp:variable
-                                    [ sp:varName "su"^^xsd:string
-                                    ]
-                          ] [ rdf:type sp:NotExists ;
-                            sp:elements ([ sp:object SSNProv:SensingUsage ;
-                                        sp:predicate rdf:type ;
-                                        sp:subject
-                                                [ sp:varName "su2"^^xsd:string
-                                                ]
-                                      ] [ sp:object
-                                                [ sp:varName "su2"^^xsd:string
-                                                ] ;
-                                        sp:predicate <http://www.w3.org/ns/prov#qualifiedAssociation> ;
-                                        sp:subject spin:_this
-                                      ])
-                          ])
-              ] ;
       spin:rule
               [ rdf:type sp:Construct ;
                 sp:templates ([ sp:object SSNProv:ActivityOfSensing ;
@@ -383,6 +334,40 @@ SSNProv:SensorPerformedSensing
       spin:rule
               [ rdf:type sp:Construct ;
                 sp:templates ([ sp:object
+                                    [ sp:varName "sensor"^^xsd:string
+                                    ] ;
+                            sp:predicate <http://www.w3.org/ns/prov#agent> ;
+                            sp:subject spin:_this
+                          ]) ;
+                sp:where ([ sp:object SSNProv:ActivityOfSensing ;
+                            sp:predicate rdf:type ;
+                            sp:subject
+                                    [ sp:varName "aos"^^xsd:string
+                                    ]
+                          ] [ sp:object spin:_this ;
+                            sp:predicate <http://www.w3.org/ns/prov#qualifiedAssociation> ;
+                            sp:subject
+                                    [ sp:varName "aos"^^xsd:string
+                                    ]
+                          ] [ sp:object
+                                    [ sp:varName "sensor"^^xsd:string
+                                    ] ;
+                            sp:predicate <http://www.w3.org/ns/prov#wasAssociatedWith> ;
+                            sp:subject
+                                    [ sp:varName "aos"^^xsd:string
+                                    ]
+                          ] [ rdf:type sp:NotExists ;
+                            sp:elements ([ sp:object
+                                                [ sp:varName "sensor"^^xsd:string
+                                                ] ;
+                                        sp:predicate <http://www.w3.org/ns/prov#agent> ;
+                                        sp:subject spin:_this
+                                      ])
+                          ])
+              ] ;
+      spin:rule
+              [ rdf:type sp:Construct ;
+                sp:templates ([ sp:object
                                     [ sp:varName "sensing"^^xsd:string
                                     ] ;
                             sp:predicate <http://www.w3.org/ns/prov#hadPlan> ;
@@ -431,45 +416,11 @@ SSNProv:SensorPerformedSensing
                                         sp:subject spin:_this
                                       ])
                           ])
-              ] ;
-      spin:rule
-              [ rdf:type sp:Construct ;
-                sp:templates ([ sp:object
-                                    [ sp:varName "sensor"^^xsd:string
-                                    ] ;
-                            sp:predicate <http://www.w3.org/ns/prov#agent> ;
-                            sp:subject spin:_this
-                          ]) ;
-                sp:where ([ sp:object SSNProv:ActivityOfSensing ;
-                            sp:predicate rdf:type ;
-                            sp:subject
-                                    [ sp:varName "aos"^^xsd:string
-                                    ]
-                          ] [ sp:object spin:_this ;
-                            sp:predicate <http://www.w3.org/ns/prov#qualifiedAssociation> ;
-                            sp:subject
-                                    [ sp:varName "aos"^^xsd:string
-                                    ]
-                          ] [ sp:object
-                                    [ sp:varName "sensor"^^xsd:string
-                                    ] ;
-                            sp:predicate <http://www.w3.org/ns/prov#wasAssociatedWith> ;
-                            sp:subject
-                                    [ sp:varName "aos"^^xsd:string
-                                    ]
-                          ] [ rdf:type sp:NotExists ;
-                            sp:elements ([ sp:object
-                                                [ sp:varName "sensor"^^xsd:string
-                                                ] ;
-                                        sp:predicate <http://www.w3.org/ns/prov#agent> ;
-                                        sp:subject spin:_this
-                                      ])
-                          ])
               ] .
 
 <http://www.provssn.test/provssninf>
       rdf:type owl:Ontology ;
-      owl:imports <http://www.SSNProv.test> , <http://spinrdf.org/spin> ;
+      owl:imports <http://spinrdf.org/spin> , <http://www.SSNProv.test> ;
       owl:versionInfo "Created with TopBraid Composer"^^xsd:string .
 
 provssninf:performedSensing
@@ -477,3 +428,7 @@ provssninf:performedSensing
 
 provssninf:sensingMethod
       rdf:type SSNProv:SensingMethod .
+
+_:b1  sp:varName "su"^^xsd:string .
+
+_:b2  sp:varName "su2"^^xsd:string .
