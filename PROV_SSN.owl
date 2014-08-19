@@ -26,6 +26,11 @@
     <owl:Ontology rdf:about="http://www.SSNProv.test">
         <owl:imports rdf:resource="http://purl.oclc.org/NET/ssnx/ssn"/>
         <owl:imports rdf:resource="http://www.w3.org/ns/prov-o#"/>
+         <dc:creator rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Michael Compton</dc:creator>
+    <dc:creator rdf:datatype="http://www.w3.org/2001/XMLSchema#string">David Corsar</dc:creator>
+    <dc:creator rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Kerry Taylor</dc:creator>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">This ontology describes an alignment of the W3C Semantic Sensor Network (SSN( Incubator Group's SSN Ontology and the W3C Provenance Working Group's PROV-O ontoloyg.  The alignment extends the expressive capability of the SSNO for recording observations and system deployments, enabling more comprehensive historical information to be described than is possible using SSNO alone.</rdfs:comment>
+
     </owl:Ontology>
     
 
@@ -215,6 +220,8 @@
 
     <owl:Class rdf:about="&www;ActivityOfSensing">
         <rdfs:subClassOf rdf:resource="&prov;Activity"/>
+         <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">The prov:Activity of a ssn:Sensor performing the sensing.  An ActivityOfSensing prov:generated the ssn:SensorOutput,  was influenced by (prov:wasInfluencedBy) the ssn:Stimulus and, through SensorPerformedSensing (a prov:Association), prov:wasAssociatedWith the sensor.</rdfs:comment>
+
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&prov;generated"/>
@@ -247,6 +254,10 @@
 
     <owl:Class rdf:about="&www;ObservationInterpretation">
         <rdfs:subClassOf rdf:resource="&prov;Activity"/>
+         <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">
+The prov:Activity of ObservationInterpretation records the activity that interpreted the results of an ActivityOfSensing and resulted in (prov:generated) a dul:Situation that is the ssn:Observation.  The activity of ObservationInterpretation prov:wasInformedBy the ActivityOfSensing and may be prov:wasInformedBy some of the aspects recorded by the ssn:Observation.
+         </rdfs:comment>
+
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&prov;wasInformedBy"/>
@@ -267,14 +278,20 @@
 
     <owl:Class rdf:about="&www;PerformedSensing">
         <rdfs:subClassOf rdf:resource="&prov;Role"/>
+        <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">
+         The prov:Role of a ssn:Sensor in a SensorPerformedSensing that is prov:qualifiedAssociation with an ActivityOfSensing. 
+         </rdfs:comment>
     </owl:Class>
     
 
 
     <!-- http://www.SSNProv.test#SensingMethod -->
-
+    
     <owl:Class rdf:about="&www;SensingMethod">
         <rdfs:subClassOf rdf:resource="&prov;Role"/>
+       <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">
+         The prov:Role of ssn:Sensing in a SensorUsage that is prov:qualifiedUsage with an ActivityOfSensing. 
+         </rdfs:comment>
     </owl:Class>
     
 
@@ -282,6 +299,11 @@
     <!-- http://www.SSNProv.test#SensingUsage -->
 
     <owl:Class rdf:about="&www;SensingUsage">
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">
+         The  of a ssn:Sensing for an ActivityOfSensing. 
+         The ActivityOfSensing prov:qualifiedUsage for describing the prov:Role and prov:Plan used by a ssn:Sensor when performing sensing.
+       
+         </rdfs:comment>
         <rdfs:subClassOf rdf:resource="&prov;Usage"/>
         <rdfs:subClassOf>
             <owl:Restriction>
@@ -302,6 +324,9 @@
     <!-- http://www.SSNProv.test#SensorPerformedSensing -->
 
     <owl:Class rdf:about="&www;SensorPerformedSensing">
+      <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">
+         The ActivityOfSensing prov:qualifiedAssociation for describing the prov:Role and prov:Plan followed by a ssn:Sensor when performing sensing. 
+         </rdfs:comment>
         <rdfs:subClassOf rdf:resource="&prov;Association"/>
         <rdfs:subClassOf>
             <owl:Restriction>
