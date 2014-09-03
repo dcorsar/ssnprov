@@ -1,9 +1,9 @@
 # Saved by TopBraid on Mon May 26 14:13:08 IST 2014
 # baseURI: http://www.provssn.test/provssninf
-# imports: http://www.SSNProv.test
+# imports: http://purl.oclc.org/NET/ssnprov/ssnprov
 # imports: http://spinrdf.org/spin
 
-@prefix SSNProv:  <http://www.SSNProv.test#> .
+@prefix SSNProv:  <http://purl.oclc.org/NET/ssnprov/ssnprov#> .
 @prefix owl:     <http://www.w3.org/2002/07/owl#> .
 @prefix provssninf:  <http://www.provssn.test/provssninf#> .
 @prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
@@ -420,7 +420,7 @@ SSNProv:SensorPerformedSensing
 
 <http://www.provssn.test/provssninf>
       rdf:type owl:Ontology ;
-      owl:imports <http://spinrdf.org/spin> , <http://www.SSNProv.test> ;
+      owl:imports <http://spinrdf.org/spin> , <http://purl.oclc.org/NET/ssnprov/ssnprov> ;
       owl:versionInfo "Created with TopBraid Composer"^^xsd:string .
 
 provssninf:performedSensing
