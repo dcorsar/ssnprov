@@ -1,0 +1,301 @@
+@prefix : <http://purl.oclc.org/NET/ssnprov/ssnprov#> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix DUL: <http://www.loa-cnr.it/ontologies/DUL.owl#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix ssn: <http://purl.oclc.org/NET/ssnx/ssn#> .
+@prefix www: <http://purl.oclc.org/NET/ssnprov/ssnprov#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@base <http://purl.oclc.org/NET/ssnprov/ssnprov> .
+
+<http://purl.oclc.org/NET/ssnprov/ssnprov> rdf:type owl:Ontology ;
+                                           
+                                           dc:creator "David Corsar"^^xsd:string ,
+                                                      "Kerry Taylor"^^xsd:string ,
+                                                      "Michael Compton"^^xsd:string ;
+                                           
+                                           rdfs:comment """This ontology describes an alignment of the W3C Semantic Sensor Network (SSN) Incubator Group's SSN Ontology and the W3C Provenance Working Group's PROV-O ontoloyg.  The alignment extends the expressive capability of the SSNO for recording observations and system deployments, enabling more comprehensive historical information to be described than is possible using SSNO alone.
+
+For further details about the design of the ontology, please see
+Compton, M. and Corsar, D. and Taylor, K. Sensor Data Provenance:SSNO and PROV-O Together At Last. Joint Proceedings of the 6th International Workshop on the Foundations, Technologies and Applications of the Geospatial Web and 7th International Workshop on Semantic Sensor Networks. Vol 1404 CEUR Workshop Proceedings. 2014.  http://ceur-ws.org/Vol-1401/paper-05.pdf"""^^xsd:string ;
+                                           
+                                           owl:versionInfo "1.0.2" ;
+                                           
+                                           owl:imports <http://purl.oclc.org/NET/ssnx/ssn> ,
+                                                       <http://www.w3.org/ns/prov-o#> .
+
+
+#################################################################
+#
+#    Object Properties
+#
+#################################################################
+
+
+###  http://purl.oclc.org/NET/ssnprov/ssnprov#sensingAgent
+
+:sensingAgent rdf:type owl:ObjectProperty ;
+              
+              rdfs:label "sensing agent"^^xsd:string ;
+              
+              rdfs:comment "Role chain to ensure that the dul:Plan a ssn:Sensor enacts in an ActivityOfSensing must be a plan that it ssn:implements."^^xsd:string ;
+              
+              owl:inverseOf :sensingAgentINV ;
+              
+              rdfs:subPropertyOf prov:agent .
+
+
+
+###  http://purl.oclc.org/NET/ssnprov/ssnprov#sensingAgentINV
+
+:sensingAgentINV rdf:type owl:ObjectProperty .
+
+
+
+###  http://purl.oclc.org/NET/ssnx/ssn#deployedOnPlatform
+
+ssn:deployedOnPlatform rdfs:subPropertyOf prov:used .
+
+
+
+###  http://purl.oclc.org/NET/ssnx/ssn#deployedSystem
+
+ssn:deployedSystem rdfs:subPropertyOf prov:used .
+
+
+
+###  http://purl.oclc.org/NET/ssnx/ssn#hasSubSystem
+
+ssn:hasSubSystem rdfs:subPropertyOf prov:hadMember .
+
+
+
+###  http://purl.oclc.org/NET/ssnx/ssn#implements
+
+ssn:implements owl:propertyChainAxiom ( :sensingAgentINV
+                                        prov:hadPlan
+                                      ) .
+
+
+
+###  http://purl.oclc.org/NET/ssnx/ssn#isProducedBy
+
+ssn:isProducedBy rdfs:subPropertyOf prov:wasAttributedTo .
+
+
+
+###  http://purl.oclc.org/NET/ssnx/ssn#observationResult
+
+ssn:observationResult rdfs:subPropertyOf prov:wasDerivedFrom .
+
+
+
+###  http://purl.oclc.org/NET/ssnx/ssn#observedBy
+
+ssn:observedBy rdfs:subPropertyOf prov:wasAttributedTo .
+
+
+
+
+
+#################################################################
+#
+#    Classes
+#
+#################################################################
+
+
+###  http://purl.oclc.org/NET/ssnprov/ssnprov#ActivityOfSensing
+
+:ActivityOfSensing rdf:type owl:Class ;
+                   
+                   rdfs:label "Activity of Sensing"^^xsd:string ;
+                   
+                   rdfs:subClassOf prov:Activity ,
+                                   [ rdf:type owl:Restriction ;
+                                     owl:onProperty prov:wasInfluencedBy ;
+                                     owl:someValuesFrom ssn:Stimulus
+                                   ] ,
+                                   [ rdf:type owl:Restriction ;
+                                     owl:onProperty prov:generated ;
+                                     owl:someValuesFrom ssn:SensorOutput
+                                   ] ,
+                                   [ rdf:type owl:Restriction ;
+                                     owl:onProperty prov:qualifiedUsage ;
+                                     owl:someValuesFrom :SensingUsage
+                                   ] ,
+                                   [ rdf:type owl:Restriction ;
+                                     owl:onProperty prov:qualifiedAssociation ;
+                                     owl:someValuesFrom :SensorPerformedSensing
+                                   ] ;
+                   
+                   rdfs:comment "The prov:Activity of a ssn:Sensor performing the sensing.  An ActivityOfSensing prov:generated the ssn:SensorOutput,  was influenced by (prov:wasInfluencedBy) the ssn:Stimulus and, through SensorPerformedSensing (a prov:Association), prov:wasAssociatedWith the sensor."^^xsd:string .
+
+
+
+###  http://purl.oclc.org/NET/ssnprov/ssnprov#ObservationInterpretation
+
+:ObservationInterpretation rdf:type owl:Class ;
+                           
+                           rdfs:label "Observation Interpretation"^^xsd:string ;
+                           
+                           rdfs:subClassOf prov:Activity ,
+                                           [ rdf:type owl:Restriction ;
+                                             owl:onProperty prov:wasInformedBy ;
+                                             owl:someValuesFrom :ActivityOfSensing
+                                           ] ,
+                                           [ rdf:type owl:Restriction ;
+                                             owl:onProperty prov:generated ;
+                                             owl:someValuesFrom ssn:Observation
+                                           ] ;
+                           
+                           rdfs:comment """
+The prov:Activity of ObservationInterpretation records the activity that interpreted the results of an ActivityOfSensing and resulted in (prov:generated) a dul:Situation that is the ssn:Observation.  The activity of ObservationInterpretation prov:wasInformedBy the ActivityOfSensing and may be prov:wasInformedBy some of the aspects recorded by the ssn:Observation.
+         """^^xsd:string .
+
+
+
+###  http://purl.oclc.org/NET/ssnprov/ssnprov#PerformedSensing
+
+:PerformedSensing rdf:type owl:Class ;
+                  
+                  rdfs:label "Performed Sensing"^^xsd:string ;
+                  
+                  rdfs:subClassOf prov:Role ;
+                  
+                  rdfs:comment """
+         The prov:Role of a ssn:Sensor in a SensorPerformedSensing that is prov:qualifiedAssociation with an ActivityOfSensing. 
+         """^^xsd:string .
+
+
+
+###  http://purl.oclc.org/NET/ssnprov/ssnprov#SensingMethod
+
+:SensingMethod rdf:type owl:Class ;
+               
+               rdfs:label "Sensing Method"^^xsd:string ;
+               
+               rdfs:subClassOf prov:Role ;
+               
+               rdfs:comment """
+         The prov:Role of ssn:Sensing in a SensorUsage that is prov:qualifiedUsage with an ActivityOfSensing. 
+         """^^xsd:string .
+
+
+
+###  http://purl.oclc.org/NET/ssnprov/ssnprov#SensingUsage
+
+:SensingUsage rdf:type owl:Class ;
+              
+              rdfs:label "Sensing Usage"^^xsd:string ;
+              
+              rdfs:subClassOf prov:Usage ,
+                              [ rdf:type owl:Restriction ;
+                                owl:onProperty prov:hadRole ;
+                                owl:someValuesFrom :SensingMethod
+                              ] ,
+                              [ rdf:type owl:Restriction ;
+                                owl:onProperty prov:entity ;
+                                owl:someValuesFrom ssn:Sensing
+                              ] ;
+              
+              rdfs:comment "The prov:Usage of a ssn:Sensing for an ActivityOfSensing. The ActivityOfSensing prov:qualifiedUsage for describing the prov:Role and prov:Plan used by a ssn:Sensor when performing sensing."^^xsd:string .
+
+
+
+###  http://purl.oclc.org/NET/ssnprov/ssnprov#SensorPerformedSensing
+
+:SensorPerformedSensing rdf:type owl:Class ;
+                        
+                        rdfs:label "Sensor Performed Sensing"^^xsd:string ;
+                        
+                        rdfs:subClassOf prov:Association ,
+                                        [ rdf:type owl:Restriction ;
+                                          owl:onProperty prov:hadPlan ;
+                                          owl:someValuesFrom ssn:Sensing
+                                        ] ,
+                                        [ rdf:type owl:Restriction ;
+                                          owl:onProperty :sensingAgent ;
+                                          owl:someValuesFrom ssn:Sensor
+                                        ] ,
+                                        [ rdf:type owl:Restriction ;
+                                          owl:onProperty prov:hadRole ;
+                                          owl:someValuesFrom :PerformedSensing
+                                        ] ;
+                        
+                        rdfs:comment """
+         The ActivityOfSensing prov:qualifiedAssociation for describing the prov:Role and prov:Plan followed by a ssn:Sensor when performing sensing. 
+         """^^xsd:string .
+
+
+
+###  http://purl.oclc.org/NET/ssnx/ssn#DeploymentRelatedProcess
+
+ssn:DeploymentRelatedProcess rdfs:subClassOf prov:Activity .
+
+
+
+###  http://purl.oclc.org/NET/ssnx/ssn#Observation
+
+ssn:Observation rdfs:subClassOf prov:Entity .
+
+
+
+###  http://purl.oclc.org/NET/ssnx/ssn#ObservationValue
+
+ssn:ObservationValue rdfs:subClassOf prov:Entity ,
+                                     [ rdf:type owl:Restriction ;
+                                       owl:onProperty prov:alternateOf ;
+                                       owl:someValuesFrom ssn:SensorOutput
+                                     ] .
+
+
+
+###  http://purl.oclc.org/NET/ssnx/ssn#Platform
+
+ssn:Platform rdfs:subClassOf prov:Entity .
+
+
+
+###  http://purl.oclc.org/NET/ssnx/ssn#Sensing
+
+ssn:Sensing rdfs:subClassOf prov:Plan .
+
+
+
+###  http://purl.oclc.org/NET/ssnx/ssn#Sensor
+
+ssn:Sensor rdfs:subClassOf prov:Agent ,
+                           prov:Entity .
+
+
+
+###  http://purl.oclc.org/NET/ssnx/ssn#SensorOutput
+
+ssn:SensorOutput rdfs:subClassOf prov:Entity ,
+                                 [ rdf:type owl:Restriction ;
+                                   owl:onProperty prov:alternateOf ;
+                                   owl:someValuesFrom ssn:ObservationValue
+                                 ] .
+
+
+
+###  http://purl.oclc.org/NET/ssnx/ssn#Stimulus
+
+ssn:Stimulus rdfs:subClassOf prov:Activity .
+
+
+
+###  http://purl.oclc.org/NET/ssnx/ssn#System
+
+ssn:System rdfs:subClassOf DUL:Entity ,
+                           prov:Collection .
+
+
+
+
+###  Generated by the OWL API (version 3.5.0) http://owlapi.sourceforge.net
+

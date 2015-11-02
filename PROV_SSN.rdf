@@ -29,7 +29,11 @@
         <dc:creator rdf:datatype="&xsd;string">David Corsar</dc:creator>
         <dc:creator rdf:datatype="&xsd;string">Kerry Taylor</dc:creator>
         <dc:creator rdf:datatype="&xsd;string">Michael Compton</dc:creator>
-        <rdfs:comment rdf:datatype="&xsd;string">This ontology describes an alignment of the W3C Semantic Sensor Network (SSN( Incubator Group&apos;s SSN Ontology and the W3C Provenance Working Group&apos;s PROV-O ontoloyg.  The alignment extends the expressive capability of the SSNO for recording observations and system deployments, enabling more comprehensive historical information to be described than is possible using SSNO alone.</rdfs:comment>
+        <rdfs:comment rdf:datatype="&xsd;string">This ontology describes an alignment of the W3C Semantic Sensor Network (SSN) Incubator Group&apos;s SSN Ontology and the W3C Provenance Working Group&apos;s PROV-O ontoloyg.  The alignment extends the expressive capability of the SSNO for recording observations and system deployments, enabling more comprehensive historical information to be described than is possible using SSNO alone.
+
+For further details about the design of the ontology, please see
+Compton, M. and Corsar, D. and Taylor, K. Sensor Data Provenance:SSNO and PROV-O Together At Last. Joint Proceedings of the 6th International Workshop on the Foundations, Technologies and Applications of the Geospatial Web and 7th International Workshop on Semantic Sensor Networks. Vol 1404 CEUR Workshop Proceedings. 2014.  http://ceur-ws.org/Vol-1401/paper-05.pdf</rdfs:comment>
+        <owl:versionInfo>1.0.2</owl:versionInfo>
         <owl:imports rdf:resource="http://purl.oclc.org/NET/ssnx/ssn"/>
         <owl:imports rdf:resource="http://www.w3.org/ns/prov-o#"/>
     </owl:Ontology>
@@ -141,18 +145,6 @@
         <rdfs:subClassOf rdf:resource="&prov;Activity"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&prov;qualifiedUsage"/>
-                <owl:someValuesFrom rdf:resource="&www;SensingUsage"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="&prov;qualifiedAssociation"/>
-                <owl:someValuesFrom rdf:resource="&www;SensorPerformedSensing"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
                 <owl:onProperty rdf:resource="&prov;wasInfluencedBy"/>
                 <owl:someValuesFrom rdf:resource="&ssn;Stimulus"/>
             </owl:Restriction>
@@ -161,6 +153,18 @@
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&prov;generated"/>
                 <owl:someValuesFrom rdf:resource="&ssn;SensorOutput"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&prov;qualifiedUsage"/>
+                <owl:someValuesFrom rdf:resource="&www;SensingUsage"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&prov;qualifiedAssociation"/>
+                <owl:someValuesFrom rdf:resource="&www;SensorPerformedSensing"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:comment rdf:datatype="&xsd;string">The prov:Activity of a ssn:Sensor performing the sensing.  An ActivityOfSensing prov:generated the ssn:SensorOutput,  was influenced by (prov:wasInfluencedBy) the ssn:Stimulus and, through SensorPerformedSensing (a prov:Association), prov:wasAssociatedWith the sensor.</rdfs:comment>
@@ -223,14 +227,14 @@ The prov:Activity of ObservationInterpretation records the activity that interpr
         <rdfs:subClassOf rdf:resource="&prov;Usage"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&prov;entity"/>
-                <owl:someValuesFrom rdf:resource="&ssn;Sensing"/>
+                <owl:onProperty rdf:resource="&prov;hadRole"/>
+                <owl:someValuesFrom rdf:resource="&www;SensingMethod"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&prov;hadRole"/>
-                <owl:someValuesFrom rdf:resource="&www;SensingMethod"/>
+                <owl:onProperty rdf:resource="&prov;entity"/>
+                <owl:someValuesFrom rdf:resource="&ssn;Sensing"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:comment rdf:datatype="&xsd;string">The prov:Usage of a ssn:Sensing for an ActivityOfSensing. The ActivityOfSensing prov:qualifiedUsage for describing the prov:Role and prov:Plan used by a ssn:Sensor when performing sensing.</rdfs:comment>
